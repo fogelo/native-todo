@@ -18,11 +18,11 @@ const v1 = () => {
 
 const removeTask = (id) => {
     tasks = tasks.filter(t => t.id !== id)
-    render()
+    render(tasks)
 }
 
 const render = (tasks) => {
-    list.innerHTML = tasks.reduce((prev, item) => `<li>${item.title}<button onclick=removeTask(${item.id})>x</button></li>` + prev, '')
+    list.innerHTML = tasks.reduce((prev, item) => `<li><input ${item.isDone ? 'checked' : ''} type="checkbox"/>${item.title}<button onclick=removeTask(${item.id})>x</button></li>` + prev, '')
 }
 
 
@@ -43,18 +43,40 @@ addInput.addEventListener('keydown', (e) => {
 })
 
 activeBtnFilter.addEventListener('click', () => {
-    let filteredTasks = tasks.filter(t=>!t.isDone)
+    let filteredTasks = tasks.filter(t => !t.isDone)
+    activeBtnFilter.classList.add('active')
+    completedBtnFilter.classList.remove('active')
+    allBtnFilter.classList.remove('active')
     render(filteredTasks)
 })
 
 completedBtnFilter.addEventListener('click', () => {
-    let filteredTasks = tasks.filter(t=>t.isDone)
+    let filteredTasks = tasks.filter(t => t.isDone)
+    activeBtnFilter.classList.remove('active')
+    completedBtnFilter.classList.add('active')
+    allBtnFilter.classList.remove('active')
     render(filteredTasks)
 })
 
 allBtnFilter.addEventListener('click', () => {
+    activeBtnFilter.classList.remove('active')
+    completedBtnFilter.classList.remove('active')
+    allBtnFilter.classList.add('active')
     render(tasks)
 })
+
+/*?-----------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 
