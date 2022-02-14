@@ -1,3 +1,15 @@
 .active {
     background-color: aquamarine;
 }
+
+.is-done {
+    opacity: 0.5;
+}
+
+.error{
+    color: red;
+}
+
+.error-message {
+    border: 2px solid red;
+}
