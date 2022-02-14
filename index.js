@@ -28,14 +28,17 @@ const changeIsDone = (id) => {
     render(tasks)
 }
 
-
 const render = (tasks) => {
-    let div = document.createElement('div')
     if (error && !document.querySelector('.error')) {
+        let div = document.createElement('div')
         div.classList.add('error')
         div.innerHTML = `field is required`
         list.before(div)
         addInput.classList.add('error-message')
+    }
+    if (!error && document.querySelector('.error')) {
+        document.querySelector('.error').outerHTML = ''
+        addInput.className = ''
     }
     list.innerHTML = tasks.reduce((prev, item) => `<li class=${item.isDone ? 'is-done' : ''}><input onchange=changeIsDone(${item.id}) ${item.isDone ? 'checked' : ''} type="checkbox"/>${item.title}<button onclick=removeTask(${item.id})>x</button></li>` + prev, '')
 }
@@ -59,12 +62,19 @@ addInput.addEventListener('keydown', (e) => {
             render(tasks)
             return
         }
-        error = false
         addInput.value && tasks.push({id: v1(), title: addInput.value, isDone: false})
         addInput.value = ''
         render(tasks)
+        return ''
     }
+    error = false
+    render(tasks)
 })
+
+// addInput.addEventListener('keydown', (e) => {
+//     error = false
+//     render(tasks)
+// })
 
 activeBtnFilter.addEventListener('click', () => {
     let filteredTasks = tasks.filter(t => !t.isDone)
